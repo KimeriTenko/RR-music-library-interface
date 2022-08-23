@@ -7,13 +7,25 @@ function App(){
     let [message, setMessage] = useState('Search for Music!')
     let [data, setData] = useState([])
 
-    return (
-        <div>
-            <SearchBar />
-            {message}
-            <Gallery />
-        </div>
-    )
-}
-
-export default App
+        useEffect(() => {
+            const fetchData = async () => {
+                document.title = `${search} Music`
+                const response = await fetch('https://itunes.apple.com/search?term=the%20grateful%20dead')
+                const resData = await response.json()
+                if (ReadableStreamDefaultReader.results.length > 0) {
+                  setData ('Not Found')
+                }
+            }
+            fetchData()
+        }, [search])
+    
+        return (
+            <div>
+                <SearchBar />
+                {message}
+                <Gallery />
+            </div>
+        )
+    }
+    
+    export default App
